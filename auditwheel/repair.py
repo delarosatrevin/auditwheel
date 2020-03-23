@@ -82,8 +82,12 @@ def repair_wheel(wheel_path: str, abi: str, lib_sdir: str, out_dir: str,
                                       'library "%s" could not be located') %
                                      soname)
 
-                new_soname, new_path = copylib(src_path, dest_dir)
-                soname_map[soname] = (new_soname, new_path)
+                if soname not in soname_map:
+                    new_soname, new_path = copylib(src_path, dest_dir)
+                    soname_map[soname] = (new_soname, new_path)
+                else:
+                    new_soname, new_path = soname_map[soname]
+                    
                 check_call(['patchelf', '--replace-needed', soname,
                             new_soname, fn])
 
