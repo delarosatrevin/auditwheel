@@ -118,8 +118,9 @@ def get_wheel_elfdata(wheel_fn: str):
             # we should walk its elftree.
             if basename(fn) not in needed_libs:
                 full_elftree[fn] = nonpy_elftree[fn]
-                full_external_refs[fn] = lddtree_external_references(
-                    nonpy_elftree[fn], ctx.path)
+                
+            full_external_refs[fn] = lddtree_external_references(
+                nonpy_elftree[fn], ctx.path)
 
     log.debug(json.dumps(full_elftree, indent=4))
 
